@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import os
 
 st.set_page_config(
     page_title= "Tiktok Sentiment Visualisation",
@@ -18,7 +19,13 @@ st.markdown('Project on Data science \
         (Predicts video is positive negative or neutral \
         (By using NLTK Pre trained Vader')
 
-df=pd.read_csv('Nltk_Vader\Sentiment_results.csv')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the correct path (adjust folder names as needed)
+csv_path = os.path.join(BASE_DIR, "Nltk_Vader", "Sentiment_results.csv")
+
+# Load the CSV file
+df = pd.read_csv(csv_path)
   
 col1, col2 = st.columns(2)
 
