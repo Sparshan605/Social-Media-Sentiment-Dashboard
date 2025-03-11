@@ -7,7 +7,6 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
-import plotly.graph_objects as go
 st.set_page_config(
     page_title= "Tiktok Sentiment Visualisation",
     page_icon="📊",
@@ -15,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("Tiktok Caption Sentiment Analysis")
-st.model('Project on Data science \
+st.markdown('Project on Data science \
         (Predicts video is positive negative or neutral \
         (By using NLTK Pre trained Vader')
 
