@@ -34,8 +34,8 @@ with col1:
     sentiment_counts.columns = ['sentiment_label','count']
     fig_pie =px.pie(
         sentiment_counts,
-        values='Count',
-        names='Sentiment',
+        values='sentiment_score',
+        names='sentiment_label',
         title='Sentiment Distribution',
         color='Sentiment_label',
         color_discrete_map={'positive':'green','neutral':'gray','negative':'red'})
@@ -44,8 +44,8 @@ with col1:
 with col2:
     fig_bar=px.bar(
         sentiment_counts,
-        x='Sentiment',
-        y='Count',
+        x='sentiment_label',
+        y='sentiment_score',
         title='Sentiment Counts',
         color='sentiment_label',
         color_discrete_map={'positive':'green','neutral':'gray','negative':'red'} 
