@@ -18,7 +18,7 @@ st.markdown('Project on Data science \
         (Predicts video is positive negative or neutral \
         (By using NLTK Pre trained Vader')
 
-df=pd.read_csv('C:/Users/Hp/Documents/Projects/Social Media Sentiment Dashboard/Nltk_Vader/Sentiment_results.csv')
+df=pd.read_csv('Nltk_Vader\Sentiment_results.csv')
   
 col1, col2 = st.columns(2)
 
