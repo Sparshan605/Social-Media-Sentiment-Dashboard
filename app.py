@@ -24,7 +24,7 @@ st.write(df.head())
 df['sentiment_label'] = df['sentiment_label'].str.lower().str.strip()
 sentiment_counts = df['sentiment_label'].value_counts().reset_index()
 sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
-sentiment_counts['sentiment_count'] = sentiment_counts['sentiment_count'].astype(int)
+sentiment_counts['sentiment_count'] = pd.to_numeric(sentiment_counts['sentiment_count'], errors='coerce')
 st.header('Counts')
 st.write(sentiment_counts)
 
