@@ -31,7 +31,7 @@ st.write(sentiment_counts)
 
 
 
-col1, col2 = st.columns(2,1)
+col1, col2 = st.columns(2)
 
 with col1:
     labels = sentiment_counts['sentiment_label'].tolist()
