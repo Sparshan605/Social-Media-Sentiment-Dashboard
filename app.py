@@ -80,8 +80,9 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
+    value=df['sentiment_score']
     fig_box = go.Figure()
-    fig_box.add_trace(go.Box(y=df['sentiment_score'], boxmean=True))
+    fig_box.add_trace(go.Box(y=value, boxmean=True))
     fig_box.update_layout(title="Sentiment Score Box Plot")
 
     st.plotly_chart(fig_box, use_container_width=True)
