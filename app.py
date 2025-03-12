@@ -47,15 +47,21 @@ with col1:
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col2:
-    fig_bar = px.bar(
-        sentiment_counts,
-        x='sentiment_label',
-        y='sentiment_count',  # Fixed issue: Use 'count' instead of 'sentiment_score'
+    fig_bar = go.Figure(data=[
+    go.Bar(
+        x=sentiment_counts['sentiment_label'],
+        y=sentiment_counts['sentiment_count'],
         title='Sentiment Counts',
-        color='sentiment_label',
-        color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
+        xaxis_title='Sentiment Label',
+        yaxis_title='Count',
+        marker_color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
+                     for x in sentiment_counts['sentiment_label']]
     )
-    st.plotly_chart(fig_bar, use_container_width=True)
+])
+
+
+
+st.plotly_chart(fig_bar, use_container_width=True)
 
 st.header('Sentiment Scores Visualization')
 
