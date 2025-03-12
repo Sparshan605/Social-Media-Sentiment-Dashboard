@@ -78,17 +78,19 @@ with col2:
 
 st.header('Sentiment Scores Visualization')
 
-# col3, col4 = st.columns(2)
-
+col3, col4 = st.columns(2)
+with col3:
+    fig_hist = px.histogram(df, x='sentiment_score', color='sentiment_label')
+    st.plotly_chart(fig_hist, use_container_width=True)
 # with col3:
 #     fig_scatter = px.scatter(
 #         df,
 #         x='positive',
 #         y='negative',
 #         color='sentiment_label',  # Fixed issue: Corrected column name
-#         hover_data=['cleaned_caption'] if 'cleaned_caption' in df.columns else None,
+#         hover_data=['cleaned_caption'] if 'cleaned_caption' in df.columns else []
 #         title='Positive Vs Negative Sentiment Scores',
-#         color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
+#         color_discrete_map={'positive': 'green', 'negative': 'red', 'neutral': 'gray'}
 #     )
 #     st.plotly_chart(fig_scatter, use_container_width=True)
 
