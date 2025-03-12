@@ -64,7 +64,9 @@ fig_bar.update_layout(
     title='Sentiment Counts',
     xaxis_title='Sentiment Label',
     yaxis_title='Count',
-    bargap=0.2,  
+    yaxis=dict(range=[0, max(sentiment_counts['sentiment_count']) + 5]),
+    bargap=0.1, 
+    barmode='group',
     plot_bgcolor='black',  
     paper_bgcolor='black',
     font=dict(color='white')  
