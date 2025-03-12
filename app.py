@@ -80,24 +80,11 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    fig_hist = go.Figure(data=[
-        go.Histogram(
-            x=df['sentiment_score'],
-            marker=dict(color='blue'),
-            nbinsx=20  # Number of bins
-        )
-    ])
-    
-    fig_hist.update_layout(
-        title='Sentiment Score Distribution',
-        xaxis_title='Sentiment Score',
-        yaxis_title='Frequency',
-        bargap=0.1  # Adjust spacing between bars
-    )
+    fig_box = go.Figure()
+    fig_box.add_trace(go.Box(y=df['sentiment_score'], boxmean=True))
+    fig_box.update_layout(title="Sentiment Score Box Plot")
 
-    st.plotly_chart(fig_hist, use_container_width=True)
-
-    st.plotly_chart(fig_hist, use_container_width=True)
+    st.plotly_chart(fig_box, use_container_width=True)
     st.write("Sentiment Score Data Sample:", df[['sentiment_label', 'sentiment_score']].head())
 
 
