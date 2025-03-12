@@ -56,8 +56,8 @@ with col2:
     values = sentiment_counts['sentiment_count'].tolist()
     fig_bar = go.Figure(data=[
         go.Bar(
-            x=labels,  # Categories on X-axis
-            y=values,  # Values on Y-axis
+            x=labels,  
+            y=values,  
             marker=dict(
             color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
                    for x in sentiment_counts['sentiment_label']]
@@ -68,13 +68,10 @@ with col2:
 
     # Updating layout for better appearance
     fig_bar.update_layout(
-        title='Sentiment Counts',
         xaxis_title='Sentiment Label',
         yaxis_title='Count',
         bargap=0.1, 
         barmode='group',
-        plot_bgcolor='black',  
-        paper_bgcolor='black',
         font=dict(color='white')  
     )
     st.plotly_chart(fig_bar, use_container_width=True)
