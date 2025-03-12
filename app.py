@@ -80,21 +80,26 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    fig_hist = go.Figure()
     df['sentiment_score'] = pd.to_numeric(df['sentiment_score'], errors='coerce')
-    df['sentiment_label'] = df['sentiment_label'].astype(str)
+    df['sentiment_label'] = df['sentiment_label'].astype(str).str.lower() 
+    fig_hist = go.Figure()
     unique_sentiments = df['sentiment_label'].unique()
-    color_map = {'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
+    color_map = {'positive': 'green', 'negative': 'red', 'neutral': 'gray'}
+    score_range = df['sentiment_score'].max() - df['sentiment_score'].min()
+    bin_size = round(score_range / 15, 2) 
+
     for sentiment in unique_sentiments:
         sentiment_data = df[df['sentiment_label'] == sentiment]['sentiment_score']
         fig_hist.add_trace(go.Histogram(
             x=sentiment_data,
-            name=sentiment,
+            name=sentiment.capitalize(), \
             opacity=0.75,
             marker=dict(color=color_map.get(sentiment, 'blue')),
-            autobinx=False,
-            xbins=dict(start=sentiment_data.min(), end=sentiment_data.max(), size=0.1)
-        ))
+            autobinx=True,  
+            xbins=dict(start=df['sentiment_score'].min(), end=df['sentiment_score'].max(), size=bin_size)
+    ))
+
+
     fig_hist.update_layout(
         title='Sentiment Score Distribution',
         xaxis_title='Sentiment Score',
@@ -104,7 +109,6 @@ with col3:
         showlegend=True
     )
     st.plotly_chart(fig_hist, use_container_width=True)
-
     # Print some debug information
     st.write(f"Total rows: {len(df)}")
     st.write(f"Unique sentiments: {unique_sentiments}")
