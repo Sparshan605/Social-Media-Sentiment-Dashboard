@@ -84,41 +84,55 @@ with col3:
 
     data = df['sentiment_score']
 
-    # Add more pronounced jitter when values are mostly 0
-    jitter_amount = 0.05  # Increased from 0.02
-    jitter = np.random.uniform(-jitter_amount, jitter_amount, size=len(data))
-    data_jittered = data + jitter
+    # Create a kernel density estimate to exaggerate the distribution
+    from scipy import stats
+    kde = stats.gaussian_kde(data, bw_method=0.2)  # Use a larger bandwidth for smoother density
+    x_grid = np.linspace(-1, 1, 1000)
+    density = kde(x_grid)
 
     fig_violin = go.Figure()
 
+    # Add scatter plot of actual data points with jitter
+    jitter = np.random.uniform(-0.05, 0.05, size=len(data))
+    fig_violin.add_trace(go.Scatter(
+        y=data + jitter,
+        x=np.random.uniform(-0.3, 0.3, size=len(data)),
+        mode='markers',
+        marker=dict(size=4, color='rgba(8,81,156,0.5)'),
+        name='Data Points'
+    ))
+
+    # Add the violin plot with forced width
     fig_violin.add_trace(go.Violin(
-        y=data_jittered,
+        y=data,
         box_visible=True,
         meanline_visible=True,
+        width=1.2,  # Force the violin to be wider
         line_color='rgb(8,81,156)',
-        fillcolor='rgba(107,174,214,0.6)',  # Increased opacity
-        points='all',  # Show all points
-        marker=dict(size=3, color='rgb(8,81,156)', opacity=0.5),
-        bandwidth=0.15,  # Adjusted for better smoothing
-        side='both',  # Create a symmetric violin
-        spanmode='hard'  # Use the actual data range
+        fillcolor='rgba(107,174,214,0.6)',
+        side='both',
+        points=False
     ))
 
     # Update layout
     fig_violin.update_layout(
         title="Sentiment Score Distribution (Violin Plot)",
-        height=500,  # Increased height
-        width=700,   # Increased width
+        height=500,
+        width=700,
         paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(240,240,240,0.5)',
+        plot_bgcolor='rgba(240,240,240,0.8)',  # More visible background
         margin=dict(l=40, r=40, t=60, b=40),
         yaxis=dict(
             title='Sentiment Score',
             gridcolor='white',
             range=[-1, 1],
             zerolinecolor='red',
-            zerolinewidth=2  # Make zero line more prominent
-        )
+            zerolinewidth=2
+        ),
+        xaxis=dict(
+            visible=False  # Hide x-axis since it's just for visualization
+        ),
+        showlegend=True
     )
 
     # Add annotation to highlight concentration at zero
@@ -130,12 +144,11 @@ with col3:
         arrowhead=1,
         ax=70,
         ay=-30,
-        font=dict(size=12)
+        font=dict(size=12, color='black')
     )
 
     # Display in Streamlit
     st.plotly_chart(fig_violin, use_container_width=True)
-
 # # with col3:
 # #     fig_scatter = px.scatter(
 # #         df,
