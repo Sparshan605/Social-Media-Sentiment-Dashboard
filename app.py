@@ -87,6 +87,7 @@ with col3:
 
     st.plotly_chart(fig_box, use_container_width=True)
     st.write("Sentiment Score Data Sample:", df[['sentiment_label', 'sentiment_score']].head())
+    st.write('value')
 
 
 # with col3:
