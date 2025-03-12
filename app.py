@@ -31,7 +31,7 @@ st.write(sentiment_counts)
 
 
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns(2,1)
 
 with col1:
     labels = sentiment_counts['sentiment_label'].tolist()
@@ -45,7 +45,9 @@ with col1:
 
     fig_pie.update_layout(
         title='Sentiment Distribution',
-        margin=dict(l=0, r=0, t=40, b=0),
+        margin=dict(l=20, r=20, t=40, b=20),  
+        height=400,  
+        width=400,
         )
     st.plotly_chart(fig_pie, use_container_width=True)
 
