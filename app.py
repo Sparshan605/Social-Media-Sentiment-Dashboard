@@ -81,22 +81,28 @@ st.header('Sentiment Scores Visualization')
 col3, col4 = st.columns(2)
 with col3:
     fig_hist = go.Figure()
-    for sentiment in df['sentiment_label'].unique():
+    labels = sentiment_counts['sentiment_label']
+    values = sentiment_counts['sentiment_score']
+
+    # Loop over unique sentiment labels
+    for sentiment in labels.unique():
         fig_hist.add_trace(go.Histogram(
-            x=df[df['sentiment_label'] == sentiment]['sentiment_score'],  # Use 'df' if needed
+            x=values[labels == sentiment],  # Filter values based on sentiment
             name=sentiment,
             opacity=0.75,
-            marker=dict(color='green' if sentiment == 'Positive' else 'red' if sentiment == 'Negative' else 'gray')
+            marker=dict(
+                color='green' if sentiment == 'Positive' else 
+                      'red' if sentiment == 'Negative' else 'gray'
+            )
         ))
 
     fig_hist.update_layout(
-    title='Sentiment Score Distribution',
-    xaxis_title='Sentiment Score',
-    yaxis_title='Frequency',
-    barmode='overlay'
+        title='Sentiment Score Distribution',
+        xaxis_title='Sentiment Score',
+        yaxis_title='Frequency',
+        barmode='overlay'
     )
-
-st.plotly_chart(fig_hist, use_container_width=True)
+    st.plotly_chart(fig_hist, use_container_width=True)
 # with col3:
 #     fig_scatter = px.scatter(
 #         df,
