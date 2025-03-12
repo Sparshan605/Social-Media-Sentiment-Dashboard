@@ -84,10 +84,16 @@ with col3:
     labels = df['sentiment_label']
     values = df['sentiment_score']
 
+    # Check for NaN values
+    df = df.dropna(subset=['sentiment_score'])
+
+    # Convert to categorical if needed
+    df['sentiment_label'] = df['sentiment_label'].astype(str)
+
     # Loop over unique sentiment labels
-    for sentiment in labels.unique():
+    for sentiment in df['sentiment_label'].unique():
         fig_hist.add_trace(go.Histogram(
-            x=values[labels == sentiment],  # Filter values based on sentiment
+            x=df.loc[df['sentiment_label'] == sentiment, 'sentiment_score'],  # Ensure correct filtering
             name=sentiment,
             opacity=0.75,
             marker=dict(
