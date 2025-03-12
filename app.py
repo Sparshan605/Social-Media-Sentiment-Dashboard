@@ -47,24 +47,25 @@ with col1:
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col2:
- fig_bar = go.Figure(data=[
-    go.Bar(
-        x=sentiment_counts['sentiment_label'],  # Categories on X-axis
-        y=sentiment_counts['sentiment_count'],  # Values on Y-axis
-        marker=dict(
+    labels = sentiment_counts['sentiment_label'].tolist()
+    values = sentiment_counts['sentiment_count'].tolist()
+    fig_bar = go.Figure(data=[
+        go.Bar(
+            x=labels,  # Categories on X-axis
+            y=values,  # Values on Y-axis
+            marker=dict(
             color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
                    for x in sentiment_counts['sentiment_label']]
         ),
-        orientation='v',
-    )
-])
+            orientation='v',
+        )
+    ])
 
 # Updating layout for better appearance
 fig_bar.update_layout(
     title='Sentiment Counts',
     xaxis_title='Sentiment Label',
     yaxis_title='Count',
-    yaxis=dict(range=[0, max(sentiment_counts['sentiment_count']) + 5]),
     bargap=0.1, 
     barmode='group',
     plot_bgcolor='black',  
