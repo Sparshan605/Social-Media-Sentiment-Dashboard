@@ -80,8 +80,8 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    labels = sentiment_counts['sentiment_label']
-    values = sentiment_counts['sentiment_score']
+    labels = df['sentiment_label']
+    values = df['sentiment_score']
 
     fig_hist = go.Figure(data=[
         go.Histogram(
