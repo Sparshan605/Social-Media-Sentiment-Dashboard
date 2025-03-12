@@ -45,7 +45,7 @@ with col1:
 
     fig_pie.update_layout(
         title='Sentiment Distribution',
-        margin=dict(l=20, r=20, t=80, b=20),  
+        margin=dict(l=20, r=20, t=80, b=0),  
         height=400,  
         width=400,
         )
