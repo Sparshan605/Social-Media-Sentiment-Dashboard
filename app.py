@@ -80,65 +80,82 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    fig = go.Figure()
+    fig = px.histogram(df, x='sentiment_score', 
+                    marginal='box',  # This adds a box plot on the margin
+                    nbins=20,
+                    color_discrete_sequence=['rgb(107,174,214)'],
+                    title='Sentiment Score Distribution')
 
-# Add the box plot
-    fig.add_trace(go.Box(
-        y=df['sentiment_score'],
-        name='Sentiment Scores',
-        boxmean=True,
-        boxpoints='all',  # Show all points
-        jitter=0.3,
-        pointpos=-1.8,
-        line_color='rgb(8,81,156)',
-        fillcolor='rgba(107,174,214,0.3)',
-        marker=dict(
-            color='rgb(107,174,214)',
-            size=4
-        )
-    ))
-
-    # Update layout
+    # Update layout for better appearance
     fig.update_layout(
-        title="Sentiment Score Box Plot",
-        yaxis_title="Sentiment Score",
         height=400,
         width=600,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(240,240,240,0.5)',
         margin=dict(l=40, r=40, t=60, b=40),
-        yaxis=dict(
+        xaxis=dict(
+            title='Sentiment Score',
             gridcolor='white',
-            zerolinecolor='red',  # Highlight the zero line
-            range=[-1, 1]  # Keep your -0.9 to 0.9 range with padding
+            range=[-1, 1],  # Keep consistent with your -0.9 to 0.9 range plus padding
+            zerolinecolor='red'  # Highlight the zero line
+        ),
+        yaxis=dict(
+            title='Count',
+            gridcolor='white'
         )
     )
 
-    # Display the plot in Streamlit
+    # Display plot in Streamlit
     st.plotly_chart(fig, use_container_width=False)
 
-    # Add some space (gap)
-    st.write("")
-    st.write("")
+#     # Add space
+#     st.write("")
+#     st.write("")
 
-    # Display summary statistics with proper handling of NA values
-    stats = {
-        'Mean': np.mean(df['sentiment_score']).round(4),
-        'Median': np.median(df['sentiment_score']).round(4),
-        'Min': np.min(df['sentiment_score']).round(4),
-        'Max': np.max(df['sentiment_score']).round(4),
-        'Standard Deviation': np.std(df['sentiment_score']).round(4)
-    }
+#     # Calculate and display statistics on the generated data
+#     stats = {
+#         'Mean': np.mean(data).round(4),
+#         'Median': np.median(data).round(4),
+#         'Min': np.min(data).round(4),
+#         'Max': np.max(data).round(4),
+#         'Standard Deviation': np.std(data).round(4)
+#     }
 
-    # Convert to DataFrame for display
-    stats_df = pd.DataFrame(list(stats.items()), columns=['Statistic', 'Value'])
-    st.write("Sentiment Score Statistics:")
-    st.table(stats_df)
+#     # Display as a table
+#     stats_df = pd.DataFrame(list(stats.items()), columns=['Statistic', 'Value'])
+#     st.write("Sentiment Score Statistics:")
+#     st.table(stats_df)
 
+#     # Optional: Add a simple violin plot as another visualization option
+#     st.write("Alternative Visualization: Violin Plot")
+#     fig_violin = go.Figure()
+#     fig_violin.add_trace(go.Violin(
+#         y=data,
+#         box_visible=True,
+#         line_color='rgb(8,81,156)',
+#         fillcolor='rgba(107,174,214,0.3)',
+#         marker=dict(size=4, color='rgb(107,174,214)')
+#     ))
 
-# with col3:
-#     fig_scatter = px.scatter(
-#         df,
+#     fig_violin.update_layout(
+#         height=400,
+#         width=600,
+#         paper_bgcolor='rgba(0,0,0,0)',
+#         plot_bgcolor='rgba(240,240,240,0.5)',
+#         margin=dict(l=40, r=40, t=60, b=40),
+#         yaxis=dict(
+#             title='Sentiment Score',
+#             gridcolor='white',
+#             range=[-1, 1],
+#             zerolinecolor='red'
+#         )
+#     )
+
+#     st.plotly_chart(fig_violin, use_container_width=False)
+
+# # with col3:
+# #     fig_scatter = px.scatter(
+# #         df,
 #         x='positive',
 #         y='negative',
 #         color='sentiment_label',  # Fixed issue: Corrected column name
