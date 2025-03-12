@@ -17,21 +17,22 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, "Nltk_Vader", "Sentiment_results.csv")
 
 df = pd.read_csv(csv_path)
+st.header('File head')
 st.write(df.head())
 
 # Count the number of occurrences for each sentiment
 df['sentiment_label'] = df['sentiment_label'].str.lower().str.strip()
-sentiment_counts = df['sentiment_label'].value_counts().reset_index()
-sentiment_counts.columns = ['sentiment_label', 'count']
-st.write(sentiment_counts)
+df['sentiment_counts'] = df['sentiment_label'].value_counts().reset_index()
+st.header('Counts')
+st.write(df['sentiment_counts'])
 
 
 col1, col2 = st.columns(2)
 
 with col1:
     fig_pie = px.pie(
-        sentiment_counts,
-        values='count',  # Fixed issue: Use 'count' instead of 'sentiment_score'
+        df,
+        values='sentiment_counts',  # Fixed issue: Use 'count' instead of 'sentiment_score'
         names='sentiment_label',
         title='Sentiment Distribution',
         color='sentiment_label',  # Fixed issue: Match column name
