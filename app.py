@@ -43,7 +43,10 @@ with col1:
         marker=dict(colors=['gray', 'green', 'red'])
     )])
 
-    fig_pie.update_layout(title='Sentiment Distribution')
+    fig_pie.update_layout(
+        title='Sentiment Distribution',
+        margin=dict(l=0, r=0, t=40, b=0),
+        )
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col2:
@@ -61,19 +64,18 @@ with col2:
         )
     ])
 
-# Updating layout for better appearance
-fig_bar.update_layout(
-    title='Sentiment Counts',
-    xaxis_title='Sentiment Label',
-    yaxis_title='Count',
-    bargap=0.1, 
-    barmode='group',
-    plot_bgcolor='black',  
-    paper_bgcolor='black',
-    font=dict(color='white')  
-)
-
-st.plotly_chart(fig_bar, use_container_width=True)
+    # Updating layout for better appearance
+    fig_bar.update_layout(
+        title='Sentiment Counts',
+        xaxis_title='Sentiment Label',
+        yaxis_title='Count',
+        bargap=0.1, 
+        barmode='group',
+        plot_bgcolor='black',  
+        paper_bgcolor='black',
+        font=dict(color='white')  
+    )
+    st.plotly_chart(fig_bar, use_container_width=True)
 
 st.header('Sentiment Scores Visualization')
 
