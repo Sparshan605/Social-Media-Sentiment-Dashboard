@@ -48,17 +48,22 @@ with col1:
 
 with col2:
     fig_bar = go.Figure(data=[
-    go.Bar(
-        x=sentiment_counts['sentiment_label'],
-        y=sentiment_counts['sentiment_count'],
-        title='Sentiment Counts',
-        xaxis_title='Sentiment Label',
-        yaxis_title='Count',
-        marker_color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
-                     for x in sentiment_counts['sentiment_label']]
+        go.Bar(
+            x=sentiment_counts['sentiment_label'],
+            y=sentiment_counts['sentiment_count'],
+            marker=dict(
+            color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
+                   for x in sentiment_counts['sentiment_label']]
+        )
     )
 ])
 
+
+fig_bar.update_layout(
+    title='Sentiment Counts',
+    xaxis_title='Sentiment Label',
+    yaxis_title='Count'
+)
 
 
 st.plotly_chart(fig_bar, use_container_width=True)
