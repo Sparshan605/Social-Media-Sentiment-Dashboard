@@ -33,18 +33,16 @@ st.write(sentiment_counts)
 col1, col2 = st.columns(2)
 
 with col1:
-    # Make sure sentiment_counts actually has the right values before plotting
-    fig_pie = px.pie(
-        sentiment_counts,
-        values='sentiment_count',
-        names='sentiment_label',
-        title='Sentiment Distribution',
-        color='sentiment_label',
-        color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
-    )
-    # Add this debug line to check what's happening with your data
-    st.write("Debug - Values being used for pie chart:", sentiment_counts['sentiment_count'].tolist())
-    
+    labels = sentiment_counts['sentiment_label'].tolist()
+    values = sentiment_counts['sentiment_count'].tolist()
+
+    fig_pie = go.Figure(data=[go.Pie(
+        labels=labels,
+        values=values,
+        marker=dict(colors=['gray', 'green', 'red'])
+    )])
+
+    fig_pie.update_layout(title='Sentiment Distribution')
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col2:
