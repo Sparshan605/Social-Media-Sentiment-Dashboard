@@ -80,61 +80,59 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    value = df['sentiment_score']
+    fig = go.Figure()
 
-# Create a more robust box plot with additional configuration
-    fig_box = go.Figure()
-
-# Add the box plot with more styling
-    fig_box.add_trace(go.Box(
-        y=value,
-        boxmean=True,  # Show mean
+# Add the box plot
+    fig.add_trace(go.Box(
+        y=df['sentiment_score'],
+        name='Sentiment Scores',
+        boxmean=True,
         boxpoints='all',  # Show all points
-        jitter=0.3,  # Add jitter to points
-        pointpos=-1.8,  # Position points to the left
-        marker_color='rgb(107,174,214)',  # Point color
-        line_color='rgb(8,81,156)',  # Line color
-        fillcolor='rgba(107,174,214,0.3)'  # Fill color
+        jitter=0.3,
+        pointpos=-1.8,
+        line_color='rgb(8,81,156)',
+        fillcolor='rgba(107,174,214,0.3)',
+        marker=dict(
+            color='rgb(107,174,214)',
+            size=4
+        )
     ))
 
-# More detailed layout configuration
-    fig_box.update_layout(
-        title={
-            'text': "Sentiment Score Box Plot",
-            'y':0.95,
-            'x':0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'
-        },
+    # Update layout
+    fig.update_layout(
+        title="Sentiment Score Box Plot",
+        yaxis_title="Sentiment Score",
         height=400,
-        width=600,  # Set explicit width
+        width=600,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(240,240,240,0.5)',
         margin=dict(l=40, r=40, t=60, b=40),
-        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
-        plot_bgcolor='rgba(240,240,240,0.5)',  # Light gray plot area
-        showlegend=False,
         yaxis=dict(
             gridcolor='white',
-            zerolinecolor='white',
-            title='Sentiment Score',
-            range=[-1, 1]  # Adjusted to your -0.9 to 0.9 range with a bit of padding
+            zerolinecolor='red',  # Highlight the zero line
+            range=[-1, 1]  # Keep your -0.9 to 0.9 range with padding
         )
     )
 
-# Configure Streamlit to display the plot with specific settings
-    st.plotly_chart(fig_box, use_container_width=False, config={'displayModeBar': True})
+    # Display the plot in Streamlit
+    st.plotly_chart(fig, use_container_width=False)
 
-# Display summary statistics for the sentiment scores
+    # Add some space (gap)
+    st.write("")
+    st.write("")
+
+    # Display summary statistics with proper handling of NA values
+    stats = {
+        'Mean': np.mean(df['sentiment_score']).round(4),
+        'Median': np.median(df['sentiment_score']).round(4),
+        'Min': np.min(df['sentiment_score']).round(4),
+        'Max': np.max(df['sentiment_score']).round(4),
+        'Standard Deviation': np.std(df['sentiment_score']).round(4)
+    }
+
+    # Convert to DataFrame for display
+    stats_df = pd.DataFrame(list(stats.items()), columns=['Statistic', 'Value'])
     st.write("Sentiment Score Statistics:")
-    stats_df = pd.DataFrame({
-        'Statistic': ['Mean', 'Median', 'Min', 'Max', 'Standard Deviation'],
-        'Value': [
-            np.mean(value).round(4),
-            np.median(value).round(4),
-            np.min(value).round(4),
-            np.max(value).round(4),
-            np.std(value).round(4)
-    ]
-    })
     st.table(stats_df)
 
 
