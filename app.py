@@ -80,79 +80,37 @@ st.header('Sentiment Scores Visualization')
 
 col3, col4 = st.columns(2)
 with col3:
-    fig = px.histogram(df, x='sentiment_score', 
-                    marginal='box',  # This adds a box plot on the margin
-                    nbins=20,
-                    color_discrete_sequence=['rgb(107,174,214)'],
-                    title='Sentiment Score Distribution')
+    st.write("### Alternative Visualization: Violin Plot")
+    data = df['sentiment_score']
+    fig_violin = go.Figure()
+    fig_violin.add_trace(go.Violin(
+        y=data,
+        box_visible=True,  # Show box inside the violin
+        meanline_visible=True,  # Show mean line
+        line_color='rgb(8,81,156)',
+        fillcolor='rgba(107,174,214,0.3)',
+        marker=dict(size=4, color='rgb(107,174,214)'),
+        bandwidth=0.1  # Adjust smoothness
+    ))
 
-    # Update layout for better appearance
-    fig.update_layout(
+    # Update layout
+    fig_violin.update_layout(
+        title="Sentiment Score Distribution (Violin Plot)",
         height=400,
         width=600,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(240,240,240,0.5)',
         margin=dict(l=40, r=40, t=60, b=40),
-        xaxis=dict(
+        yaxis=dict(
             title='Sentiment Score',
             gridcolor='white',
-            range=[-1, 1],  # Keep consistent with your -0.9 to 0.9 range plus padding
-            zerolinecolor='red'  # Highlight the zero line
-        ),
-        yaxis=dict(
-            title='Count',
-            gridcolor='white'
+            range=[-1, 1],
+            zerolinecolor='red'
         )
     )
 
-    # Display plot in Streamlit
-    st.plotly_chart(fig, use_container_width=False)
-
-#     # Add space
-#     st.write("")
-#     st.write("")
-
-#     # Calculate and display statistics on the generated data
-#     stats = {
-#         'Mean': np.mean(data).round(4),
-#         'Median': np.median(data).round(4),
-#         'Min': np.min(data).round(4),
-#         'Max': np.max(data).round(4),
-#         'Standard Deviation': np.std(data).round(4)
-#     }
-
-#     # Display as a table
-#     stats_df = pd.DataFrame(list(stats.items()), columns=['Statistic', 'Value'])
-#     st.write("Sentiment Score Statistics:")
-#     st.table(stats_df)
-
-#     # Optional: Add a simple violin plot as another visualization option
-#     st.write("Alternative Visualization: Violin Plot")
-#     fig_violin = go.Figure()
-#     fig_violin.add_trace(go.Violin(
-#         y=data,
-#         box_visible=True,
-#         line_color='rgb(8,81,156)',
-#         fillcolor='rgba(107,174,214,0.3)',
-#         marker=dict(size=4, color='rgb(107,174,214)')
-#     ))
-
-#     fig_violin.update_layout(
-#         height=400,
-#         width=600,
-#         paper_bgcolor='rgba(0,0,0,0)',
-#         plot_bgcolor='rgba(240,240,240,0.5)',
-#         margin=dict(l=40, r=40, t=60, b=40),
-#         yaxis=dict(
-#             title='Sentiment Score',
-#             gridcolor='white',
-#             range=[-1, 1],
-#             zerolinecolor='red'
-#         )
-#     )
-
-#     st.plotly_chart(fig_violin, use_container_width=False)
-
+    # Display in Streamlit
+    st.plotly_chart(fig_violin, use_container_width=False)
 # # with col3:
 # #     fig_scatter = px.scatter(
 # #         df,
