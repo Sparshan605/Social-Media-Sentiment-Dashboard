@@ -81,34 +81,35 @@ st.header('Sentiment Scores Visualization')
 col3, col4 = st.columns(2)
 with col3:
     fig_hist = go.Figure()
-    labels = df['sentiment_label']
-    values = df['sentiment_score']
-
-    # Check for NaN values
-    df = df.dropna(subset=['sentiment_score'])
-
-    # Convert to categorical if needed
+    df['sentiment_score'] = pd.to_numeric(df['sentiment_score'], errors='coerce')
     df['sentiment_label'] = df['sentiment_label'].astype(str)
-
-    # Loop over unique sentiment labels
-    for sentiment in df['sentiment_label'].unique():
+    unique_sentiments = df['sentiment_label'].unique()
+    color_map = {'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
+    for sentiment in unique_sentiments:
+        sentiment_data = df[df['sentiment_label'] == sentiment]['sentiment_score']
         fig_hist.add_trace(go.Histogram(
-            x=df.loc[df['sentiment_label'] == sentiment, 'sentiment_score'],  # Ensure correct filtering
+            x=sentiment_data,
             name=sentiment,
             opacity=0.75,
-            marker=dict(
-                color='green' if sentiment == 'Positive' else 
-                      'red' if sentiment == 'Negative' else 'gray'
-            )
+            marker=dict(color=color_map.get(sentiment, 'blue')),
+            autobinx=False,
+            xbins=dict(start=sentiment_data.min(), end=sentiment_data.max(), size=0.1)
         ))
-
     fig_hist.update_layout(
         title='Sentiment Score Distribution',
         xaxis_title='Sentiment Score',
         yaxis_title='Frequency',
-        barmode='overlay'
+        barmode='overlay',
+        xaxis=dict(range=[df['sentiment_score'].min(), df['sentiment_score'].max()]),
+        showlegend=True
     )
     st.plotly_chart(fig_hist, use_container_width=True)
+
+    # Print some debug information
+    st.write(f"Total rows: {len(df)}")
+    st.write(f"Unique sentiments: {unique_sentiments}")
+    st.write(f"Score range: {df['sentiment_score'].min()} to {df['sentiment_score'].max()}")
+
 # with col3:
 #     fig_scatter = px.scatter(
 #         df,
