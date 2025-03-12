@@ -81,16 +81,24 @@ st.header('Sentiment Scores Visualization')
 col3, col4 = st.columns(2)
 with col3:
     st.write("### Alternative Visualization: Violin Plot")
+
+
     data = df['sentiment_score']
+
+    # Add jitter to prevent clustering at 0
+    jitter = np.random.uniform(-0.02, 0.02, size=len(data))  
+    data_jittered = data + jitter  
+
     fig_violin = go.Figure()
+
     fig_violin.add_trace(go.Violin(
-        y=data,
-        box_visible=True,  # Show box inside the violin
+        y=data_jittered,
+        box_visible=True,  # Show box inside violin
         meanline_visible=True,  # Show mean line
         line_color='rgb(8,81,156)',
-        fillcolor='rgba(107,174,214,0.3)',
-        marker=dict(size=4, color='rgb(107,174,214)'),
-        bandwidth=0.1  # Adjust smoothness
+        fillcolor='rgba(107,174,214,0.4)',
+        marker=dict(size=4, color='rgb(107,174,214)', opacity=0.7),
+        bandwidth=0.2  # Increase smoothing
     ))
 
     # Update layout
@@ -111,6 +119,8 @@ with col3:
 
     # Display in Streamlit
     st.plotly_chart(fig_violin, use_container_width=False)
+
+
 # # with col3:
 # #     fig_scatter = px.scatter(
 # #         df,
