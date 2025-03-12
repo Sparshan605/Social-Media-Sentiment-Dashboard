@@ -22,9 +22,11 @@ st.write(df.head())
 
 # Count the number of occurrences for each sentiment
 df['sentiment_label'] = df['sentiment_label'].str.lower().str.strip()
-df['sentiment_counts'] = df['sentiment_label'].value_counts().reset_index()
+sentiment_counts = df['sentiment_label'].value_counts().reset_index()
+sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
 st.header('Counts')
-st.write(df['sentiment_counts'])
+st.write(sentiment_counts)
+st.write(sentiment_counts.columns)
 
 
 col1, col2 = st.columns(2)
