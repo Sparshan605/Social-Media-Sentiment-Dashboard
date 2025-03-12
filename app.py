@@ -24,6 +24,7 @@ st.write(df.head())
 df['sentiment_label'] = df['sentiment_label'].str.lower().str.strip()
 sentiment_counts = df['sentiment_label'].value_counts().reset_index()
 sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
+sentiment_counts['sentiment_count'] = sentiment_counts['sentiment_count'].astype(int)
 st.header('Counts')
 st.write(sentiment_counts)
 
@@ -46,7 +47,7 @@ with col2:
     fig_bar = px.bar(
         sentiment_counts,
         x='sentiment_label',
-        y='count',  # Fixed issue: Use 'count' instead of 'sentiment_score'
+        y='sentiment_count',  # Fixed issue: Use 'count' instead of 'sentiment_score'
         title='Sentiment Counts',
         color='sentiment_label',
         color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
