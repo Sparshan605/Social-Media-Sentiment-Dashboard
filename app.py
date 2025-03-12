@@ -81,7 +81,7 @@ st.header('Sentiment Scores Visualization')
 col3, col4 = st.columns(2)
 with col3:
     fig_hist = go.Figure()
-    labels = sentiment_counts['sentiment_label']
+    labels = df['sentiment_label']
     values = df['sentiment_score']
 
     # Loop over unique sentiment labels
