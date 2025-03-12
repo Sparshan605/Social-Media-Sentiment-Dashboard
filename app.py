@@ -26,14 +26,16 @@ col1, col2 = st.columns(2)
 
 with col1:
     fig_pie = px.pie(
-        sentiment_counts,
-        values='count',  # Fixed issue: Use 'count' instead of 'sentiment_score'
-        names='sentiment_label',
-        title='Sentiment Distribution',
-        color='sentiment_label',  # Fixed issue: Match column name
-        color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
-    )
-    st.plotly_chart(fig_pie, use_container_width=True)
+    sentiment_counts,
+    values='count',  # Use count instead of sentiment_score
+    names='sentiment_label',
+    title='Sentiment Distribution',
+    color='sentiment_label',
+    color_discrete_map={'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
+)
+st.plotly_chart(fig_pie, use_container_width=True)
+
+
 
 with col2:
     fig_bar = px.bar(
