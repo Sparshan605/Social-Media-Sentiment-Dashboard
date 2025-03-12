@@ -82,30 +82,33 @@ col3, col4 = st.columns(2)
 with col3:
     st.write("### Alternative Visualization: Violin Plot")
 
-
     data = df['sentiment_score']
 
-    # Add jitter to prevent clustering at 0
-    jitter = np.random.uniform(-0.02, 0.02, size=len(data))  
-    data_jittered = data + jitter  
+    # Add more pronounced jitter when values are mostly 0
+    jitter_amount = 0.05  # Increased from 0.02
+    jitter = np.random.uniform(-jitter_amount, jitter_amount, size=len(data))
+    data_jittered = data + jitter
 
     fig_violin = go.Figure()
 
     fig_violin.add_trace(go.Violin(
         y=data_jittered,
-        box_visible=True,  # Show box inside violin
-        meanline_visible=True,  # Show mean line
+        box_visible=True,
+        meanline_visible=True,
         line_color='rgb(8,81,156)',
-        fillcolor='rgba(107,174,214,0.4)',
-        marker=dict(size=4, color='rgb(107,174,214)', opacity=0.7),
-        bandwidth=0.2  # Increase smoothing
+        fillcolor='rgba(107,174,214,0.6)',  # Increased opacity
+        points='all',  # Show all points
+        marker=dict(size=3, color='rgb(8,81,156)', opacity=0.5),
+        bandwidth=0.15,  # Adjusted for better smoothing
+        side='both',  # Create a symmetric violin
+        spanmode='hard'  # Use the actual data range
     ))
 
     # Update layout
     fig_violin.update_layout(
         title="Sentiment Score Distribution (Violin Plot)",
-        height=400,
-        width=600,
+        height=500,  # Increased height
+        width=700,   # Increased width
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(240,240,240,0.5)',
         margin=dict(l=40, r=40, t=60, b=40),
@@ -113,13 +116,25 @@ with col3:
             title='Sentiment Score',
             gridcolor='white',
             range=[-1, 1],
-            zerolinecolor='red'
+            zerolinecolor='red',
+            zerolinewidth=2  # Make zero line more prominent
         )
     )
 
-    # Display in Streamlit
-    st.plotly_chart(fig_violin, use_container_width=False)
+    # Add annotation to highlight concentration at zero
+    fig_violin.add_annotation(
+        x=0,
+        y=0,
+        text="High concentration at 0",
+        showarrow=True,
+        arrowhead=1,
+        ax=70,
+        ay=-30,
+        font=dict(size=12)
+    )
 
+    # Display in Streamlit
+    st.plotly_chart(fig_violin, use_container_width=True)
 
 # # with col3:
 # #     fig_scatter = px.scatter(
