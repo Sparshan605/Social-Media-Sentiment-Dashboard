@@ -85,9 +85,9 @@ with col3:
 
     fig_hist = go.Figure(data=[
         go.Histogram(
-        x=values,  # Sentiment scores
-        marker=dict(color='gray'),  # Default color
-        nbinsx=20  # Adjust number of bins as needed
+        x=values,  
+        marker=dict(color='blue'),  
+        nbinsx=20  
         )
     ])
 
@@ -99,6 +99,7 @@ with col3:
     )
 
     st.plotly_chart(fig_hist, use_container_width=True)
+    st.write("Sentiment Score Data Sample:", df[['sentiment_label', 'sentiment_score']].head())
 
 
 # with col3:
