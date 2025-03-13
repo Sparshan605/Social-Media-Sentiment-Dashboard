@@ -76,40 +76,40 @@ with col2:
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
-col3, = st.columns(1)
-with col3:
-   # Sample data for better performance (optional)
-    df_sample = df.sample(500, random_state=42)
+# col3, = st.columns(1)
+# with col3:
+#    # Sample data for better performance (optional)
+#     df_sample = df.sample(500, random_state=42)
 
-# Map sentiment labels to colors
-    color_map = {'positive': 'green', 'neutral': 'blue', 'negative': 'red'}
-    df_sample['color'] = df_sample['sentiment_label'].map(color_map).fillna('gray')
+# # Map sentiment labels to colors
+#     color_map = {'positive': 'green', 'neutral': 'blue', 'negative': 'red'}
+#     df_sample['color'] = df_sample['sentiment_label'].map(color_map).fillna('gray')
 
-    # Create 3D scatter plot
-    fig = go.Figure(data=[go.Scatter3d(
-        x=df_sample['sentiment_score'],
-        y=df_sample['playCount'],
-        z=df_sample['diggCount'],
-        mode='markers',
-        marker=dict(
-            size=5,  # Reduced marker size for performance
-            color=df_sample['color'],  # Color by sentiment label mapping
-            opacity=0.6  # Lower opacity for smoother rendering
-        )
-    )])
+#     # Create 3D scatter plot
+#     fig = go.Figure(data=[go.Scatter3d(
+#         x=df_sample['sentiment_score'],
+#         y=df_sample['playCount'],
+#         z=df_sample['diggCount'],
+#         mode='markers',
+#         marker=dict(
+#             size=5,  # Reduced marker size for performance
+#             color=df_sample['color'],  # Color by sentiment label mapping
+#             opacity=0.6  # Lower opacity for smoother rendering
+#         )
+#     )])
 
-    # Update layout with titles and axis labels
-    fig.update_layout(
-        title="Sentiment Analysis 3D Scatterplot",
-        scene=dict(
-            xaxis_title="Sentiment Score",
-            yaxis_title="Play Count",
-            zaxis_title="Digg Count"
-        )
-    )
+#     # Update layout with titles and axis labels
+#     fig.update_layout(
+#         title="Sentiment Analysis 3D Scatterplot",
+#         scene=dict(
+#             xaxis_title="Sentiment Score",
+#             yaxis_title="Play Count",
+#             zaxis_title="Digg Count"
+#         )
+#     )
 
-    # Display plot in Streamlit with error handling
-    try:
-        st.plotly_chart(fig)
-    except Exception as e:
-        st.error(f"Error displaying chart: {e}")
+#     # Display plot in Streamlit with error handling
+#     try:
+#         st.plotly_chart(fig)
+#     except Exception as e:
+#         st.error(f"Error displaying chart: {e}")
