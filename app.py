@@ -80,7 +80,7 @@ st.header('Sentiment Scores Visualization')
 
 col3, = st.columns(1)
 with col3:
-    df_sample = df.sample(1000, random_state=42)
+    df_sample = df.sample(500, random_state=42)
     
     # Create sentiment score columns on the sampled data
     df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
