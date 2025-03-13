@@ -76,27 +76,34 @@ with col2:
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
-st.header('Sentiment Scores Visualization')
-
 col3, = st.columns(1)
 with col3:
     from sklearn.preprocessing import LabelEncoder
+
+    # Load data
+    # Convert sentiment labels to numeric values
     label_encoder = LabelEncoder()
     df['sentiment_numeric'] = label_encoder.fit_transform(df['sentiment_label'])
+
+    # Define color mapping
     color_map = {
         'Positive': 'green',
         'Negative': 'red',
         'Neutral': 'blue'
     }
+
+    # Create 3D Scatter Plot
     fig = px.scatter_3d(
         df, 
         x='sentiment_score', 
-        y='sentiment_numeric', 
-        z='commentCount',  
+        y='playCount', 
+        z='diggCount',
         color='sentiment_label',
         color_discrete_map=color_map,
         title='3D Sentiment Scatter Plot',
-        labels={'sentiment_numeric': 'Sentiment Label', 'sentiment_score': 'Sentiment Score', 'commentCount': 'Comment Count'}
+        labels={'playCount': 'Play Count', 'sentiment_score': 'Sentiment Score', 'diggCount': 'Digg Count'}
     )
+
+    # Streamlit app
     st.title("Sentiment Analysis 3D Scatterplot")
     st.plotly_chart(fig)
