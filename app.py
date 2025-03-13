@@ -78,7 +78,7 @@ with col2:
 
 st.header('Sentiment Scores Visualization')
 
-col3, = st.columns()
+col3, = st.columns(1)
 with col3:
     df['positive'] = df['sentiment_score'].apply(lambda x: x if x > 0 else 0)
     df['negative'] = df['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
