@@ -84,8 +84,8 @@ with col3:
     # Create 3D scatter plot
     fig = go.Figure(data=[go.Scatter3d(
         x=df['sentiment_score'],
-        y=df['play_count'],
-        z=df['digg_count'],
+        y=df['playCount'],
+        z=df['diggCount'],
         mode='markers',
         marker=dict(
             size=8,
