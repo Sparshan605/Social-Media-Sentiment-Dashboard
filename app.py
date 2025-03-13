@@ -80,11 +80,11 @@ st.header('Sentiment Scores Visualization')
 
 col3, = st.columns(1)
 with col3:
-    df_sample = df.sample(500, random_state=42)
-    st.write(df_sample.head())
+    df_sample = df.sample(min(200, len(df)), random_state=42)  # Reduce sample size
     df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
     df_sample['negative'] = df_sample['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
-    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)    
+    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)
+    
     # Create 3D scatter plot with sampled data
     fig_3d = px.scatter_3d(
         df_sample,
@@ -92,19 +92,24 @@ with col3:
         y='negative',
         z='neutral',
         color='sentiment_label',
-        title='Positive vs Negative Sentiment Scores (1000 sample points)',
+        title='Positive vs Negative Sentiment Scores',
         color_discrete_map={'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
     )
     
-    fig_3d.update_layout(
-        scene=dict(
-            xaxis_title='Positive Score',
-            yaxis_title='Negative Score',
-            zaxis_title='Neutral Score'
-        ),
-        # Reduce marker size for better performance
-        scene_camera=dict(eye=dict(x=1.5, y=1.5, z=1.5))
-    )
+    # Reduce marker size for better performance
+    fig_3d.update_traces(marker=dict(size=3))  # Adjust marker size
+    fig_3d.update_layout(scene=dict(
+        xaxis_title='Positive Score',
+        yaxis_title='Negative Score',
+        zaxis_title='Neutral Score'
+    ))
+
+# Add error handling for Streamlit
+try:
+    st.plotly_chart(fig_3d, use_container_width=True)
+except Exception as e:
+    st.error(f"Error displaying chart: {e}")
+    st.write("Try reducing the sample size further if the issue persists.")
     
     # Add error handling
     try:
