@@ -80,24 +80,41 @@ st.header('Sentiment Scores Visualization')
 
 col3, = st.columns(1)
 with col3:
-    df['positive'] = df['sentiment_score'].apply(lambda x: x if x > 0 else 0)
-    df['negative'] = df['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
-    df['neutral'] = df['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)
+    df_sample = df.sample(1000, random_state=42)
+    
+    # Create sentiment score columns on the sampled data
+    df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
+    df_sample['negative'] = df_sample['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
+    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)
+    
+    # Define hover data safely
+    hover_data = ['text'] if 'text' in df_sample.columns else None
+    
+    # Create 3D scatter plot with sampled data
     fig_3d = px.scatter_3d(
-    df,  
-    x='positive',
-    y='negative',
-    z='neutral',
-    color='sentiment_label',
-    hover_data=['text'] if 'text' in df.columns else None,
-    title='Positive vs Negative Sentiment Scores',
-    color_discrete_map={'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
+        df_sample,
+        x='positive',
+        y='negative',
+        z='neutral',
+        color='sentiment_label',
+        hover_data=hover_data,
+        title='Positive vs Negative Sentiment Scores (1000 sample points)',
+        color_discrete_map={'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
     )
-        
-    fig_3d.update_layout(scene=dict(
-         xaxis_title='Positive Score',
-         yaxis_title='Negative Score',
-        zaxis_title='Neutral Score'
-        ))
-        
-    st.plotly_chart(fig_3d, use_container_width=True)
+    
+    fig_3d.update_layout(
+        scene=dict(
+            xaxis_title='Positive Score',
+            yaxis_title='Negative Score',
+            zaxis_title='Neutral Score'
+        ),
+        # Reduce marker size for better performance
+        scene_camera=dict(eye=dict(x=1.5, y=1.5, z=1.5))
+    )
+    
+    # Add error handling
+    try:
+        st.plotly_chart(fig_3d, use_container_width=True)
+    except Exception as e:
+        st.error(f"Error displaying chart: {e}")
+        st.write("Try reducing the sample size further if the issue persists.")
