@@ -78,32 +78,31 @@ with col2:
 
 col3, = st.columns(1)
 with col3:
-    from sklearn.preprocessing import LabelEncoder
+    color_map = {'positive': 'green', 'neutral': 'blue', 'negative': 'red'}
+    df['color'] = df['sentiment'].map(color_map)
 
-    # Load data
-    # Convert sentiment labels to numeric values
-    label_encoder = LabelEncoder()
-    df['sentiment_numeric'] = label_encoder.fit_transform(df['sentiment_label'])
+    # Create 3D scatter plot
+    fig = go.Figure(data=[go.Scatter3d(
+        x=df['sentiment_score'],
+        y=df['play_count'],
+        z=df['digg_count'],
+        mode='markers',
+        marker=dict(
+            size=8,
+            color=df['color'],  # Color by sentiment
+            opacity=0.8
+        )
+    )])
 
-    # Define color mapping
-    color_map = {
-        'Positive': 'green',
-        'Negative': 'red',
-        'Neutral': 'blue'
-    }
-
-    # Create 3D Scatter Plot
-    fig = px.scatter_3d(
-        df, 
-        x='sentiment_score', 
-        y='playCount', 
-        z='diggCount',
-        color='sentiment_label',
-        color_discrete_map=color_map,
-        title='3D Sentiment Scatter Plot',
-        labels={'playCount': 'Play Count', 'sentiment_score': 'Sentiment Score', 'diggCount': 'Digg Count'}
+    # Add labels
+    fig.update_layout(
+        title="Sentiment Analysis 3D Scatterplot",
+        scene=dict(
+            xaxis_title="Sentiment Score",
+            yaxis_title="Play Count",
+            zaxis_title="Digg Count"
+        )
     )
 
-    # Streamlit app
-    st.title("Sentiment Analysis 3D Scatterplot")
+    # Display in Streamlit
     st.plotly_chart(fig)
