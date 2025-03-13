@@ -81,6 +81,7 @@ st.header('Sentiment Scores Visualization')
 col3, = st.columns(1)
 with col3:
     df_sample = df.sample(500, random_state=42)
+    st.write(df_sample.head())
     df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
     df_sample['negative'] = df_sample['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
     df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)    
