@@ -81,15 +81,9 @@ st.header('Sentiment Scores Visualization')
 col3, = st.columns(1)
 with col3:
     df_sample = df.sample(500, random_state=42)
-    
-    # Create sentiment score columns on the sampled data
     df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
     df_sample['negative'] = df_sample['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
-    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)
-    
-    # Define hover data safely
-    hover_data = ['text'] if 'text' in df_sample.columns else None
-    
+    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)    
     # Create 3D scatter plot with sampled data
     fig_3d = px.scatter_3d(
         df_sample,
@@ -97,7 +91,6 @@ with col3:
         y='negative',
         z='neutral',
         color='sentiment_label',
-        hover_data=hover_data,
         title='Positive vs Negative Sentiment Scores (1000 sample points)',
         color_discrete_map={'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
     )
