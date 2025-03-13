@@ -79,7 +79,7 @@ with col2:
 col3, = st.columns(1)
 with col3:
     color_map = {'positive': 'green', 'neutral': 'blue', 'negative': 'red'}
-    df['color'] = df['sentiment'].map(color_map)
+    df['color'] = df['sentiment_label'].map(color_map)
 
     # Create 3D scatter plot
     fig = go.Figure(data=[go.Scatter3d(
