@@ -80,34 +80,23 @@ st.header('Sentiment Scores Visualization')
 
 col3, = st.columns(1)
 with col3:
-    df_sample = df.sample(500, random_state=42)
-    df_sample['positive'] = df_sample['sentiment_score'].apply(lambda x: x if x > 0 else 0)
-    df_sample['negative'] = df_sample['sentiment_score'].apply(lambda x: abs(x) if x < 0 else 0)
-    df_sample['neutral'] = df_sample['sentiment_score'].apply(lambda x: 1 if x == 0 else 0)    
-    # Create 3D scatter plot with sampled data
-    fig_3d = px.scatter_3d(
-        df_sample,
-        x='positive',
-        y='negative',
-        z='neutral',
+    from sklearn.preprocessing import LabelEncoder
+    label_encoder = LabelEncoder()
+    df['sentiment_numeric'] = label_encoder.fit_transform(df['sentiment_label'])
+    color_map = {
+        'Positive': 'green',
+        'Negative': 'red',
+        'Neutral': 'blue'
+    }
+    fig = px.scatter_3d(
+        df, 
+        x='sentiment_score', 
+        y='sentiment_numeric', 
+        z='commentCount',  
         color='sentiment_label',
-        title='Positive vs Negative Sentiment Scores (1000 sample points)',
-        color_discrete_map={'Positive': 'green', 'Negative': 'red', 'Neutral': 'gray'}
+        color_discrete_map=color_map,
+        title='3D Sentiment Scatter Plot',
+        labels={'sentiment_numeric': 'Sentiment Label', 'sentiment_score': 'Sentiment Score', 'commentCount': 'Comment Count'}
     )
-    
-    fig_3d.update_layout(
-        scene=dict(
-            xaxis_title='Positive Score',
-            yaxis_title='Negative Score',
-            zaxis_title='Neutral Score'
-        ),
-        # Reduce marker size for better performance
-        scene_camera=dict(eye=dict(x=1.5, y=1.5, z=1.5))
-    )
-    
-    # Add error handling
-    try:
-        st.plotly_chart(fig_3d, use_container_width=True)
-    except Exception as e:
-        st.error(f"Error displaying chart: {e}")
-        st.write("Try reducing the sample size further if the issue persists.")
+    st.title("Sentiment Analysis 3D Scatterplot")
+    st.plotly_chart(fig)
