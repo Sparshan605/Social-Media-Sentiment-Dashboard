@@ -1,0 +1,8 @@
+scikit-learn==1.4.0
+streamlit==1.31.1
+pandas==2.1.4
+pip==25.0.1
+plotly==6.0.0
+numpy==1.26.2
+matplotlib==3.8.2
+wordcloud==1.9.4
