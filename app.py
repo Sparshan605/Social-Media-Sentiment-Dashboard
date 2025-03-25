@@ -97,9 +97,7 @@ tab1, tab2 = st.tabs(["Pre-loaded Data", "Upload New Data"])
 with tab1:
     # Try to load pre-existing data if available
     try:
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        csv_path = os.path.join(BASE_DIR, "Nltk_Vader", "Sentiment_results.csv")
-        df = pd.read_csv(csv_path)
+        df = pd.read_csv(r"C:/Users/Hp/Documents/Projects/Social Media Sentiment Dashboard/Nltk_Vader/Sentiment_results.csv")
         st.header('Pre-loaded Data')
         st.write(df.head())
         

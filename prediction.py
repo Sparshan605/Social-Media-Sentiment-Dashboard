@@ -1,7 +1,4 @@
 import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np
-
 def predict(text_data):
     # Load the pre-trained model and vectorizer
     model = joblib.load("output_models/logistic_regression_model.sav")
