@@ -229,33 +229,38 @@ with tab2:
                     st.plotly_chart(fig_pie, use_container_width=True)
                 
                 with col2:
-                   # Detailed sentiment count processing
                     nltk_sentiment_counts = processed_data['nltk_sentiment'].value_counts().reset_index()
                     nltk_sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
 
                     # Ensure lowercase and stripped labels
                     nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.lower().str.strip()
 
-                    # Print out full debugging information
-                    st.write("Raw Sentiment Counts:")
-                    st.write(nltk_sentiment_counts)
+                    # Color mapping
+                    color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
 
-                    # Verify the exact counts
-                    for label in ['positive', 'neutral', 'negative']:
-                        count = len(processed_data[processed_data['nltk_sentiment'].str.lower().str.strip() == label])
-                        st.write(f"{label.capitalize()} count: {count}")
+                    # Ensure all sentiments are present
+                    all_sentiments = ['positive', 'neutral', 'negative']
+                    for sentiment in all_sentiments:
+                        if sentiment not in nltk_sentiment_counts['sentiment_label'].values:
+                            nltk_sentiment_counts = nltk_sentiment_counts.append({
+                                'sentiment_label': sentiment, 
+                                'sentiment_count': 0
+                            }, ignore_index=True)
 
-                    # Create bar chart with explicit count values
+                    # Sort to ensure consistent order
+                    nltk_sentiment_counts = nltk_sentiment_counts.sort_values('sentiment_label')
+
+                    # Create bar chart with full y-axis scale and explicit values
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
                             y=nltk_sentiment_counts['sentiment_count'],
                             marker=dict(
-                                color=['green' if x == 'positive' else 'gray' if x == 'neutral' else 'red' 
-                                    for x in nltk_sentiment_counts['sentiment_label']]
+                                color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
                             ),
-                            text=nltk_sentiment_counts['sentiment_count'],
-                            textposition='outside',
+                            text=nltk_sentiment_counts['sentiment_count'].astype(str),  # Convert to string
+                            textposition='outside',  # Place labels outside the bars
+                            textfont=dict(size=14)  # Increase text size
                         )
                     ])
 
@@ -263,12 +268,14 @@ with tab2:
                         title='NLTK Sentiment Count by Category',
                         xaxis_title='Sentiment Label',
                         yaxis_title='Count',
+                        yaxis=dict(
+                            range=[0, max(nltk_sentiment_counts['sentiment_count']) * 1.1]  # Add 10% padding
+                        ),
                         height=500,
+                        bargap=0.2,  # Add some gap between bars
                     )
 
-                    # Ensure y-axis starts from 0
-                    fig_bar.update_yaxes(rangemode="tozero")
-
+                    # Ensure y-axis starts from 0 and scales appropriately
                     st.plotly_chart(fig_bar, use_container_width=True)
                 st.subheader("Sentiment Score Distribution")
                 fig_scores = go.Figure()
