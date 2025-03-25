@@ -2,25 +2,20 @@ import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
-def predict(text_data, min_features=10, max_features=50000):
-    # Load the pre-trained model
+def predict(text_data):
+    # Load the pre-trained model and vectorizer
     model = joblib.load("output_models/logistic_regression_model.sav")
+    vectorizer = joblib.load("output_models/tfidf_vectorizer.sav")
     
-    # Dynamically determine optimal feature count
-    unique_words = len(set(' '.join(text_data).split()))
-    optimal_features = np.clip(
-        unique_words, 
-        min_features, 
-        max_features
-    )
+    try:
+        # Transform the input text data using the EXACT same vectorizer used during training
+        X_transformed = vectorizer.transform(text_data)
+        
+        # Make predictions
+        predictions = model.predict(X_transformed)
+        
+        return predictions
     
-    # Create vectorizer with dynamically adjusted features
-    vectorizer = TfidfVectorizer(max_features=optimal_features)
-    
-    # Transform the input text data
-    X_transformed = vectorizer.fit_transform(text_data)
-    
-    # Make predictions
-    predictions = model.predict(X_transformed)
-    
-    return predictions
+    except ValueError as e:
+        print(f"Prediction error: {e}")
+        return ['unable_to_predict'] * len(text_data)
