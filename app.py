@@ -97,7 +97,7 @@ tab1, tab2 = st.tabs(["Pre-loaded Data", "Upload New Data"])
 with tab1:
     # Try to load pre-existing data if available
     try:
-        df=pd.read_csv("Nltk_Vader\Sentiment_results.csv")
+        df=pd.read_csv("Nltk_Vader/Sentiment_results.csv")
         st.header('Pre-loaded Data')
         st.write(df.head())
         # Count the number of occurrences for each sentiment
