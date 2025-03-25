@@ -6,3 +6,4 @@ plotly==6.0.0
 numpy==1.26.2
 matplotlib==3.8.2
 wordcloud==1.9.4
+nltk==3.8.1
