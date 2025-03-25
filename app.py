@@ -12,9 +12,6 @@ import re
 from nltk.corpus import stopwords
 from prediction import predict
 
-
-
-
 st.set_page_config(
     page_title="Tiktok Sentiment Visualization",
     page_icon="📊",
@@ -87,7 +84,7 @@ def process_data(df):
         X = vectorizer.fit_transform(processed_df['cleaned_text'])
         
         # Get predictions from the additional model
-        processed_df['model_sentiment'] = predict(X)
+        processed_df['model_sentiment'] = predict(processed_df['cleaned_text'])
     except Exception as e:
         st.warning(f"Error in model prediction: {str(e)}")
         processed_df['model_sentiment'] = 'Unable to predict'
