@@ -238,6 +238,7 @@ with tab2:
                     # Color mapping
                     color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
 
+                    # Create bar chart with full y-axis scale
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
@@ -245,7 +246,8 @@ with tab2:
                             marker=dict(
                                 color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
                             ),
-                            orientation='v',
+                            text=nltk_sentiment_counts['sentiment_count'],  # Add text labels
+                            textposition='auto',  # Automatically position text labels
                         )
                     ])
 
@@ -254,12 +256,14 @@ with tab2:
                         xaxis_title='Sentiment Label',
                         yaxis_title='Count',
                         bargap=0.1,
-                        barmode='group'
+                        barmode='group',
+                        height=500,  # Increase height for better visibility
                     )
-                    st.plotly_chart(fig_bar, use_container_width=True)
 
-                    # Print out the data for verification
-                    st.write("Sentiment Counts:", nltk_sentiment_counts)
+                    # Ensure y-axis starts from 0 and scales appropriately
+                    fig_bar.update_yaxes(rangemode="tozero")
+
+                    st.plotly_chart(fig_bar, use_container_width=True)
                 st.subheader("Sentiment Score Distribution")
                 fig_scores = go.Figure()
                 fig_scores.add_trace(go.Box(y=processed_data['negative'], name='Negative'))
