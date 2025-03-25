@@ -231,14 +231,15 @@ with tab2:
                     st.plotly_chart(fig_pie, use_container_width=True)
                 
                 with col2:
-                    st.write(nltk_sentiment_counts)
-                    st.write(nltk_sentiment_counts.dtypes)
-                    st.write(nltk_sentiment_counts.head())
-                    st.write(processed_data['nltk_sentiment'].unique())
-                    st.write(processed_data['nltk_sentiment'].value_counts())
+                    nltk_sentiment_counts = processed_data['nltk_sentiment'].value_counts().reset_index()
+                    nltk_sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
 
+                    # Ensure lowercase and stripped labels
+                    nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.lower().str.strip()
+
+                    # Color mapping
                     color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
-                    nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.strip()
+
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
@@ -249,7 +250,7 @@ with tab2:
                             orientation='v',
                         )
                     ])
-                    
+
                     fig_bar.update_layout(
                         title='NLTK Sentiment Count by Category',
                         xaxis_title='Sentiment Label',
@@ -258,6 +259,9 @@ with tab2:
                         barmode='group'
                     )
                     st.plotly_chart(fig_bar, use_container_width=True)
+
+                    # Print out the data for verification
+                    st.write("Sentiment Counts:", nltk_sentiment_counts)
                 st.subheader("Sentiment Score Distribution")
                 fig_scores = go.Figure()
                 fig_scores.add_trace(go.Box(y=processed_data['negative'], name='Negative'))
