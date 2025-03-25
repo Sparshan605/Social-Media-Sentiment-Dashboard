@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 st.title("TikTok Caption Sentiment Analysis")
-st.markdown("Project on Data Science (Predicts sentiment using NLTK Vader and Machine Learning Model)")
+st.markdown("Project on Data Science (Predicts sentiment using NLTK Vader and Trained Logistic Regressor)")
 
 # Text preprocessing function
 def preprocess_text(text):
@@ -229,6 +229,7 @@ with tab2:
                     st.plotly_chart(fig_pie, use_container_width=True)
                 
                 with col2:
+                   # Detailed sentiment count processing
                     nltk_sentiment_counts = processed_data['nltk_sentiment'].value_counts().reset_index()
                     nltk_sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
 
