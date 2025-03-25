@@ -235,19 +235,26 @@ with tab2:
                     # Ensure lowercase and stripped labels
                     nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.lower().str.strip()
 
-                    # Color mapping
-                    color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
+                    # Print out full debugging information
+                    st.write("Raw Sentiment Counts:")
+                    st.write(nltk_sentiment_counts)
 
-                    # Create bar chart with full y-axis scale
+                    # Verify the exact counts
+                    for label in ['positive', 'neutral', 'negative']:
+                        count = len(processed_data[processed_data['nltk_sentiment'].str.lower().str.strip() == label])
+                        st.write(f"{label.capitalize()} count: {count}")
+
+                    # Create bar chart with explicit count values
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
                             y=nltk_sentiment_counts['sentiment_count'],
                             marker=dict(
-                                color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
+                                color=['green' if x == 'positive' else 'gray' if x == 'neutral' else 'red' 
+                                    for x in nltk_sentiment_counts['sentiment_label']]
                             ),
-                            text=nltk_sentiment_counts['sentiment_count'],  # Add text labels
-                            textposition='auto',  # Automatically position text labels
+                            text=nltk_sentiment_counts['sentiment_count'],
+                            textposition='outside',
                         )
                     ])
 
@@ -255,12 +262,10 @@ with tab2:
                         title='NLTK Sentiment Count by Category',
                         xaxis_title='Sentiment Label',
                         yaxis_title='Count',
-                        bargap=0.1,
-                        barmode='group',
-                        height=500,  # Increase height for better visibility
+                        height=500,
                     )
 
-                    # Ensure y-axis starts from 0 and scales appropriately
+                    # Ensure y-axis starts from 0
                     fig_bar.update_yaxes(rangemode="tozero")
 
                     st.plotly_chart(fig_bar, use_container_width=True)
