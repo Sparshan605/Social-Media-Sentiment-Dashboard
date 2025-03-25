@@ -231,12 +231,10 @@ with tab2:
                     st.plotly_chart(fig_pie, use_container_width=True)
                 
                 with col2:
-                    print("nltk_sentiment_counts DataFrame:")
-                    print(nltk_sentiment_counts)
-                    print("\nColumn types:")
-                    print(nltk_sentiment_counts.dtypes)
-                    print("\nFirst few rows:")
-                    print(nltk_sentiment_counts.head())
+                    st.write(nltk_sentiment_counts)
+                    st.write(nltk_sentiment_counts)
+                    st.write(nltk_sentiment_counts.dtypes)
+                    st.write(nltk_sentiment_counts.head())
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
