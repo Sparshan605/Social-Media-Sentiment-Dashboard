@@ -2,24 +2,18 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
+nltk.download('vader_lexicon')
+nltk.download('stopwords')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import re
 from nltk.corpus import stopwords
-
-# Import the prediction function from your prediction file
 from prediction import predict
 
-# Download necessary NLTK resources
-try:
-    nltk.data.find('vader_lexicon')
-    nltk.data.find('stopwords')
-except LookupError:
-    st.info("Downloading required NLTK resources...")
-    nltk.download('vader_lexicon')
-    nltk.download('stopwords')
+
+
 
 st.set_page_config(
     page_title="Tiktok Sentiment Visualization",
