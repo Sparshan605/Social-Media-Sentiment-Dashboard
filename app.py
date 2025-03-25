@@ -232,17 +232,16 @@ with tab2:
                 
                 with col2:
                     st.write(nltk_sentiment_counts)
-                    st.write(nltk_sentiment_counts)
                     st.write(nltk_sentiment_counts.dtypes)
                     st.write(nltk_sentiment_counts.head())
+                    color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
                     nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.strip()
                     fig_bar = go.Figure(data=[
                         go.Bar(
                             x=nltk_sentiment_counts['sentiment_label'],
                             y=nltk_sentiment_counts['sentiment_count'],
                             marker=dict(
-                                color=['green' if x == 'positive' else 'gray' if x == 'neutral' else 'red' 
-                                            for x in nltk_sentiment_counts['sentiment_label']]
+                                color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
                             ),
                             orientation='v',
                         )
