@@ -97,10 +97,9 @@ tab1, tab2 = st.tabs(["Pre-loaded Data", "Upload New Data"])
 with tab1:
     # Try to load pre-existing data if available
     try:
-        df = pd.read_csv("C:\\Users\\Hp\\Documents\\Projects\\Social Media Sentiment Dashboard\\Nltk_Vader\\Sentiment_results.csv")
+        df=pd.read_csv("C:\\Users\\Hp\\Documents\\Projects\\Social Media Sentiment Dashboard\\Nltk_Vader\\Sentiment_results.csv")
         st.header('Pre-loaded Data')
         st.write(df.head())
-        
         # Count the number of occurrences for each sentiment
         df['nltk_sentiment'] = df['nltk_sentiment'].str.lower().str.strip()
         sentiment_counts = df['nltk_sentiment'].value_counts().reset_index()
