@@ -234,6 +234,9 @@ with tab2:
                     st.write(nltk_sentiment_counts)
                     st.write(nltk_sentiment_counts.dtypes)
                     st.write(nltk_sentiment_counts.head())
+                    st.write(processed_data['nltk_sentiment'].unique())
+                    st.write(processed_data['nltk_sentiment'].value_counts())
+
                     color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
                     nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.strip()
                     fig_bar = go.Figure(data=[
