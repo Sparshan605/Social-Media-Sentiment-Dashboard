@@ -206,7 +206,8 @@ def main():
 
     with tab2:
         st.header("Upload Your Own Data")
-        uploaded_file = st.file_uploader("Upload your TikTok comments/captions data (CSV file)", type=['csv'])
+        st.markdown("File Must be CSV and the data must contain column named ['text', 'caption', 'comment_text', 'content'] to process] ")
+        uploaded_file = st.file_uploader("Upload your comments/captions data (CSV file)", type=['csv'])
         
         if uploaded_file is not None:
             try:
