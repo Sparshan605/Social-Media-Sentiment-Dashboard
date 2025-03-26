@@ -128,10 +128,12 @@ with tab1:
             st.plotly_chart(fig_pie, use_container_width=True)
         
         with col2:
+            labels = sentiment_counts['sentiment_label'].tolist()
+            values = sentiment_counts['sentiment_count'].tolist()
             fig_bar = go.Figure(data=[
                 go.Bar(
-                    x=sentiment_counts['sentiment_label'],
-                    y=sentiment_counts['sentiment_count'],
+                    x=labels,
+                    y=values,
                     marker=dict(
                         color=['gray' if x == 'neutral' else 'green' if x == 'positive' else 'red' 
                                for x in sentiment_counts['sentiment_label']]
@@ -224,12 +226,8 @@ with tab2:
                     st.plotly_chart(fig_pie, use_container_width=True)
                 
                 with col2:
-                    nltk_sentiment_counts = processed_data['nltk_sentiment'].value_counts().reset_index()
-                    nltk_sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
-
-                    # Ensure lowercase and stripped labels
-                    nltk_sentiment_counts['sentiment_label'] = nltk_sentiment_counts['sentiment_label'].str.lower().str.strip()
-
+                    labels = nltk_sentiment_counts['sentiment_label'].tolist()
+                    values = nltk_sentiment_counts['sentiment_count'].tolist()
                     # Color mapping
                     color_map = {'positive': 'green', 'neutral': 'gray', 'negative': 'red'}
 
@@ -240,8 +238,8 @@ with tab2:
                     # Create bar chart with full y-axis scale and explicit values
                     fig_bar = go.Figure(data=[
                         go.Bar(
-                            x=nltk_sentiment_counts['sentiment_label'],
-                            y=nltk_sentiment_counts['sentiment_count'],
+                            x=labels,
+                            y=values,
                             marker=dict(
                                 color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
                             ),
