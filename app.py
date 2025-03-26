@@ -244,8 +244,6 @@ with tab2:
                                 color=[color_map.get(x, 'black') for x in nltk_sentiment_counts['sentiment_label']]
                             ),
                             text=nltk_sentiment_counts['sentiment_count'],  # Show actual count values
-                            texttemplate='%{text}',  # Explicitly show text
-                            textposition='outside',
                             textfont=dict(size=16, color='white')
                         )
                     ])
@@ -260,33 +258,30 @@ with tab2:
                         ),
                         bargap=0.3,
                     )
-
-                    # Ensure the full chart is displayed
                     st.plotly_chart(fig_bar, use_container_width=True)
-
-                    # Optional: Display the actual counts for verification
+                    
                     st.write("Sentiment Counts:")
                     st.write(nltk_sentiment_counts)
-                st.subheader("Sentiment Score Distribution")
-                fig_scores = go.Figure()
-                fig_scores.add_trace(go.Box(y=processed_data['negative'], name='Negative'))
-                fig_scores.add_trace(go.Box(y=processed_data['neutral'], name='Neutral'))
-                fig_scores.add_trace(go.Box(y=processed_data['positive'], name='Positive'))
-                fig_scores.add_trace(go.Box(y=processed_data['compound'], name='Compound'))
-                
-                fig_scores.update_layout(
-                    title='Distribution of Sentiment Scores',
-                    yaxis_title='Score Value',
-                    boxmode='group'
-                )
-                st.plotly_chart(fig_scores, use_container_width=True)
-                csv = processed_data.to_csv(index=False)
-                st.download_button(
-                    label="Download Results as CSV",
-                    data=csv,
-                    file_name="tiktok_sentiment_analysis_results.csv",
-                    mime="text/csv",
-                )
-                
+                    st.subheader("Sentiment Score Distribution")
+                    fig_scores = go.Figure()
+                    fig_scores.add_trace(go.Box(y=processed_data['negative'], name='Negative'))
+                    fig_scores.add_trace(go.Box(y=processed_data['neutral'], name='Neutral'))
+                    fig_scores.add_trace(go.Box(y=processed_data['positive'], name='Positive'))
+                    fig_scores.add_trace(go.Box(y=processed_data['compound'], name='Compound'))
+                    
+                    fig_scores.update_layout(
+                        title='Distribution of Sentiment Scores',
+                        yaxis_title='Score Value',
+                        boxmode='group'
+                    )
+                    st.plotly_chart(fig_scores, use_container_width=True)
+                    csv = processed_data.to_csv(index=False)
+                    st.download_button(
+                        label="Download Results as CSV",
+                        data=csv,
+                        file_name="tiktok_sentiment_analysis_results.csv",
+                        mime="text/csv",
+                    )
+     
         except Exception as e:
             st.error(f"Error processing file: {str(e)}")
