@@ -7,7 +7,6 @@ nltk.download('vader_lexicon')
 nltk.download('stopwords')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import TfidfVectorizer
-import os
 import re
 from nltk.corpus import stopwords
 from prediction import predict
@@ -100,15 +99,12 @@ with tab1:
         df=pd.read_csv("Nltk_Vader/Sentiment_results.csv")
         st.header('Pre-loaded Data')
         st.write(df.head())
-        # Count the number of occurrences for each sentiment
-        df['nltk_sentiment'] = df['nltk_sentiment'].str.lower().str.strip()
-        sentiment_counts = df['nltk_sentiment'].value_counts().reset_index()
+        df['sentiment_label'] = df['sentiment_label'].str.lower().str.strip()
+        sentiment_counts = df['sentiment_label'].value_counts().reset_index()
         sentiment_counts.columns = ['sentiment_label', 'sentiment_count']
         sentiment_counts['sentiment_count'] = pd.to_numeric(sentiment_counts['sentiment_count'], errors='coerce')
-        
         st.header('Sentiment Counts')
         st.write(sentiment_counts)
-        
         # Visualizations
         col1, col2 = st.columns(2)
         
