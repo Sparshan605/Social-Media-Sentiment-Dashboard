@@ -25,7 +25,7 @@ except ImportError:
 
 # Configure Streamlit page
 st.set_page_config(
-    page_title="TikTok Sentiment Visualization",
+    page_title="Sentiment Analysis ",
     page_icon="📊",
     layout="wide",
 )
@@ -128,7 +128,7 @@ def process_data(df):
 
 # Main Streamlit App
 def main():
-    st.title("TikTok Caption Sentiment Analysis")
+    st.title("Video Sentiment Analysis")
     st.markdown("Project on Data Science (Predicts sentiment using NLTK Vader and Trained Logistic Regressor)")
 
     # Tabs for different views
